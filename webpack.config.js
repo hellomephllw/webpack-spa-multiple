@@ -9,12 +9,12 @@ const
 module.exports = {
     //入口文件路径配置
     entry: {
-        main: `${rootPath}/src/scripts/main.js`
+        'module-a': `${rootPath}/src/module-a/entry/index.js`
     },
     //输出文件路径配置
     output: {
-        path: `${rootPath}/assets/`,
-        publicPath: "/assets/",
+        path: `${rootPath}/assets`,
+        publicPath: "/assets",
         filename: '[name].js'
     },
     //模块加载器配置
@@ -59,9 +59,9 @@ module.exports = {
         }),
         //编译html
         new HtmlWebpackPlugin({
-            template: `${rootPath}/src/views/entry.html`,//指定视图
+            template: `${rootPath}/src/module-a/entry/index.html`,//指定视图
             hash: true,
-            chunks: ['main']//为视图指定js和css，名字在entry中选一个或多个
+            chunks: ['module-a']//为视图指定js和css，名字在entry中选一个或多个
         })
     ]
 };
