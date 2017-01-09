@@ -28,9 +28,9 @@ app.use(hbs.middleware({
 app.use(router.routes());
 
 /**路由分发*/
-router.get('/init', function* () {
-    console.log('init');
-    this.body = 'heihei';
+router.get('/moduleone/layoutone', function* () {
+
+    yield this.render('module-one/layouts/layout-one/index');
 });
 
 router.get('/demo', function* () {

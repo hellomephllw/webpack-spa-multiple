@@ -2,14 +2,16 @@ global.rootPath = __dirname;
 const
     webpack = require('webpack'),
     UglifyJsPlugin = webpack.optimize.UglifyJsPlugin,
-    HtmlWebpackPlugin = require('html-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    webpackConfigUtil = require('./src/common/lib/webpackConfigUtil');
+
+//初始化properties配置
+webpackConfigUtil.init();
 
 //webpack配置
 module.exports = {
     //入口文件路径配置
-    entry: {
-        'module-one/js/main-one/index': `${rootPath}/src/module-one/screen/main-one/index.js`
-    },
+    entry: webpackConfigUtil.getWebpackEntry(),
     //输出文件路径配置
     output: {
         path: `${rootPath}/htdocs`,
@@ -56,7 +58,7 @@ module.exports = {
         //     },
         //     except: ['$', 'exports', 'require']
         // }),
-        //编译html
+        //编译template
         new HtmlWebpackPlugin({
             template: `${rootPath}/src/module-one/screen/main-one/index.hbs`,//指定视图
             filename: `${rootPath}/templates/module-one/screen/main-one/index.hbs`,//输出路径和文件名
@@ -66,11 +68,20 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: `${rootPath}/src/module-one/layouts/layout-one/index.hbs`,//指定视图
             filename: `${rootPath}/templates/module-one/layouts/layout-one/index.hbs`,//输出路径和文件名
+            hash: true,
             chunks: []
         }),
-        // new HtmlWebpackPlugin({
-        //     filename: `${rootPath}/templates/common/header/header.ejs`,//输出路径和文件名
-        //     template: `${rootPath}/src/common/components/header/index.hbs`//指定视图
-        // })
+        new HtmlWebpackPlugin({
+            template: `${rootPath}/src/common/components/header/index.hbs`,//指定视图
+            filename: `${rootPath}/templates/common/components/header/index.hbs`,//输出路径和文件名
+            hash: true,
+            chunks: []
+        }),
+        new HtmlWebpackPlugin({
+            template: `${rootPath}/src/module-one/components/footer/index.hbs`,//指定视图
+            filename: `${rootPath}/templates/module-one/components/footer/index.hbs`,//输出路径和文件名
+            hash: true,
+            chunks: []
+        })
     ]
 };
