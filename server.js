@@ -4,7 +4,7 @@
 import koa from 'koa';
 import serve from 'koa-static';
 import koaRouter from 'koa-router';
-import render from 'koa-ejs';
+import hbs from 'koa-hbs';
 
 /**初始化*/
 global.rootPath = __dirname;
@@ -20,11 +20,10 @@ console.log('web服务器在3000端口启动！');
 //静态目录
 app.use(serve(`${rootPath}/assets/`));
 //视图
-render(app, {
-    root: `${rootPath}/src`,
-    layout: false,//false不使用默认ejs页面
-    viewExt: 'ejs'//默认扩展名
-});
+app.use(hbs.middleware({
+    viewPath: `${rootPath}/templates`,
+    partialsPath: `${rootPath}/templates`
+}));
 //路由
 app.use(router.routes());
 
@@ -34,6 +33,6 @@ router.get('/init', function* () {
     this.body = 'heihei';
 });
 
-router.get('', function* () {
+router.get('/demo', function* () {
     yield this.render("demo");
 });

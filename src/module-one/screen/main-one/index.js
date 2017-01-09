@@ -2,6 +2,7 @@
  * Created by liliwen on 2017/1/8.
  */
 import './index.scss';
+import header from '../../../common/components/header/index';
 
 const entry = {
     init() {
@@ -10,13 +11,13 @@ const entry = {
         this.initComponent();
     },
     initPage() {
-        console.log('init!!!!');
+        console.log('init screen!!!!');
     },
     initEvent() {
 
     },
     initComponent() {
-
+        header.init();
     }
 };
 
