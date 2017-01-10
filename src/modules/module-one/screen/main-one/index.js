@@ -3,6 +3,8 @@
  */
 import './index.scss';
 import header from '../../../../common/components/header/index';
+import nav from '../../components/nav/index';
+import footer from '../../components/footer/index';
 
 const entry = {
     init() {
@@ -18,6 +20,8 @@ const entry = {
     },
     initComponent() {
         header.init();
+        nav.init();
+        footer.init();
     }
 };
 

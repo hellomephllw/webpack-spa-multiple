@@ -52,6 +52,14 @@
 
 	var _index2 = _interopRequireDefault(_index);
 
+	var _index3 = __webpack_require__(6);
+
+	var _index4 = _interopRequireDefault(_index3);
+
+	var _index5 = __webpack_require__(7);
+
+	var _index6 = _interopRequireDefault(_index5);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
@@ -69,6 +77,8 @@
 	    initEvent: function initEvent() {},
 	    initComponent: function initComponent() {
 	        _index2.default.init();
+	        _index4.default.init();
+	        _index6.default.init();
 	    }
 	};
 
@@ -109,7 +119,7 @@
 
 
 	// module
-	exports.push([module.id, ".header {\n  color: blue;\n  border: 1px solid red; }\n\nbody {\n  font-family: \"Microsoft YaHei\", Tahoma, Arial, sans-serif; }\n\n.footer {\n  font-size: 16px;\n  color: black;\n  border: 1px solid red; }\n", ""]);
+	exports.push([module.id, ".header {\n  color: blue;\n  border: 1px solid red; }\n\n.nav {\n  float: left;\n  height: 230px;\n  border: 1px solid red; }\n\nbody {\n  font-family: \"Microsoft YaHei\", Tahoma, Arial, sans-serif; }\n\n.footer {\n  font-size: 16px;\n  color: black;\n  border: 1px solid red; }\n", ""]);
 
 	// exports
 
@@ -441,6 +451,46 @@
 	};
 
 	exports.default = header;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/**
+	 * Created by wb-llw259548 on 2017/1/9.
+	 */
+	var nav = {
+	    init: function init() {
+	        console.log('it\'s nav!!');
+	    }
+	};
+
+	exports.default = nav;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/**
+	 * Created by liliwen on 2017/1/10.
+	 */
+	var footer = {
+	    init: function init() {
+	        console.log('it\'s footer!!');
+	    }
+	};
+
+	exports.default = footer;
 
 /***/ }
 /******/ ]);

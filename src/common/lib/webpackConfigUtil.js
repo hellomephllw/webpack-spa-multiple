@@ -96,7 +96,7 @@ let webpackConfigUtil = {
             for (let i = 0, len = templatePaths.length; i < len; ++i) {
                 let templatePath = templatePaths[i],
                     isModules = /^.+\/src\/modules\/.*$/.test(templatePath),
-                    lists = isModules ? templatePath.split('/src/modules/') : templatePath.split('/src/common/components'),
+                    lists = isModules ? templatePath.split('/src/modules/') : templatePath.split('/src/common'),
                     distPath = isModules ? `${lists[0]}/templates/${lists[1]}` : `${lists[0]}/templates/common/${lists[1]}`;
 
                 templateDistPaths.push(distPath);
@@ -148,7 +148,7 @@ let webpackConfigUtil = {
             options.push({
                 template: tempOption['template'],
                 filename: tempOption['filename'],
-                hash: true,
+                hash: false,
                 chunks: tempOption['chunks']
             })
         );

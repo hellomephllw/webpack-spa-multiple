@@ -2,7 +2,7 @@
  * Created by liliwen on 2017/1/8.
  */
 import koa from 'koa';
-import serve from 'koa-static';
+import serve from 'koa-serve';
 import koaRouter from 'koa-router';
 import hbs from 'koa-hbs';
 
@@ -18,7 +18,7 @@ console.log('web服务器在3000端口启动！');
 
 /**中间件*/
 //静态目录
-app.use(serve(`${rootPath}/assets/`));
+app.use(serve('htdocs', rootPath));
 //视图
 app.use(hbs.middleware({
     viewPath: `${rootPath}/templates`,
@@ -31,8 +31,4 @@ app.use(router.routes());
 router.get('/moduleone/layoutone', function* () {
 
     yield this.render('module-one/layouts/layout-one/index');
-});
-
-router.get('/demo', function* () {
-    yield this.render("demo");
 });
