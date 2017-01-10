@@ -12,7 +12,7 @@ const filePath = {
     },
     template: {
         ext: 'hbs',
-        commonPath: '',
+        commonPath: `${rootPath}/src/common/components`,
         path: `${rootPath}/src/modules`
     }
 };
@@ -95,8 +95,9 @@ let webpackConfigUtil = {
         let generateDistPath = () => {
             for (let i = 0, len = templatePaths.length; i < len; ++i) {
                 let templatePath = templatePaths[i],
-                    lists = templatePath.split('/src/modules/'),
-                    distPath = `${lists[0]}/templates/${lists[1]}`;
+                    isModules = /^.+\/src\/modules\/.*$/.test(templatePath),
+                    lists = isModules ? templatePath.split('/src/modules/') : templatePath.split('/src/common/components'),
+                    distPath = isModules ? `${lists[0]}/templates/${lists[1]}` : `${lists[0]}/templates/common/${lists[1]}`;
 
                 templateDistPaths.push(distPath);
             }
@@ -117,6 +118,7 @@ let webpackConfigUtil = {
 
         //执行
         listDirectory(filePath.template.path);
+        listDirectory(filePath.template.commonPath);
         reserveTemplate(filePath.template.ext);
         generateDistPath();
         generateTempOptions();
