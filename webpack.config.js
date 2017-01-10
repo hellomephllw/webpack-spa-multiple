@@ -6,7 +6,7 @@ const
     webpackConfigUtil = require('./src/common/lib/webpackConfigUtil');
 
 //初始化properties配置
-webpackConfigUtil.init();
+webpackConfigUtil.init(webpack);
 
 //webpack配置
 module.exports = {
@@ -50,38 +50,5 @@ module.exports = {
         ]
     },
     //插件配置
-    plugins: [
-        //压缩js
-        // new UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     },
-        //     except: ['$', 'exports', 'require']
-        // }),
-        //编译template
-        new HtmlWebpackPlugin({
-            template: `${rootPath}/src/module-one/screen/main-one/index.hbs`,//指定视图
-            filename: `${rootPath}/templates/module-one/screen/main-one/index.hbs`,//输出路径和文件名
-            hash: true,
-            chunks: ['module-one/js/main-one/index']//为视图指定js和css，名字在entry中选一个或多个
-        }),
-        new HtmlWebpackPlugin({
-            template: `${rootPath}/src/module-one/layouts/layout-one/index.hbs`,//指定视图
-            filename: `${rootPath}/templates/module-one/layouts/layout-one/index.hbs`,//输出路径和文件名
-            hash: true,
-            chunks: []
-        }),
-        new HtmlWebpackPlugin({
-            template: `${rootPath}/src/common/components/header/index.hbs`,//指定视图
-            filename: `${rootPath}/templates/common/components/header/index.hbs`,//输出路径和文件名
-            hash: true,
-            chunks: []
-        }),
-        new HtmlWebpackPlugin({
-            template: `${rootPath}/src/module-one/components/footer/index.hbs`,//指定视图
-            filename: `${rootPath}/templates/module-one/components/footer/index.hbs`,//输出路径和文件名
-            hash: true,
-            chunks: []
-        })
-    ]
+    plugins: webpackConfigUtil.getPlugins()
 };

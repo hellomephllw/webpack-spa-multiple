@@ -2,7 +2,7 @@
  * Created by liliwen on 2017/1/8.
  */
 import './index.scss';
-import header from '../../../common/components/header/index';
+import header from '../../../../common/components/header/index';
 
 const entry = {
     init() {
