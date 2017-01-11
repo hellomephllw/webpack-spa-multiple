@@ -47,7 +47,8 @@ let webpackConfigUtil = {
     _initPlugins() {
         let plugins = [];
         this._initHtmlWebpackPlugin();
-        this._plugins = plugins.concat(this._HtmlWebpackPlugins);
+        this._initUglifyJsPlugin();
+        this._plugins = plugins.concat(this._HtmlWebpackPlugins, this._UglifyJsPlugin);
     },
     /**HtmlWebpackPlugins*/
     _HtmlWebpackPlugins: [],
@@ -152,6 +153,17 @@ let webpackConfigUtil = {
                 chunks: tempOption['chunks']
             })
         );
+    },
+    /**UglifyJsPlugin*/
+    _UglifyJsPlugin: [],
+    /**初始化UglifyJsPlugin*/
+    _initUglifyJsPlugin() {
+        this._UglifyJsPlugin.push(new this.webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            except: ['$', 'exports', 'require']
+        }));
     },
     /**入口js*/
     _entry: {},

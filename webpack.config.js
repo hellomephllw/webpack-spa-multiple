@@ -1,9 +1,7 @@
 global.rootPath = __dirname;
 const
     webpack = require('webpack'),
-    UglifyJsPlugin = webpack.optimize.UglifyJsPlugin,
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    webpackConfigUtil = require('./src/common/lib/webpackConfigUtil');
+    webpackConfigUtil = require('./src/common/lib/webpadckConfigUtil');
 
 //初始化properties配置
 webpackConfigUtil.init(webpack);
@@ -23,19 +21,19 @@ module.exports = {
         loaders: [
             //script加载器
             {
-                test: /\.js[x]?$/,
+                test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
             //image加载器
             {
                 test: /\.(png|jp[e]?g|gif)$/,
-                loader: 'url-loader?limit=1&name=images/[name].[hash:5].[ext]'
+                loader: 'url-loader?limit=10240&name=images/[name].[hash:5].[ext]'
             },
             //font加载器
             {
                 test: /\.(woff|svg|eot|ttf)$/,
-                loader: 'url-loader?limit=1&name=fonts/[name].[hash:5].[ext]'
+                loader: 'url-loader?limit=10240&name=fonts/[name].[hash:5].[ext]'
             },
             //css加载器
             {
