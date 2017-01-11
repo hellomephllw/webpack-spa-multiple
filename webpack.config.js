@@ -1,7 +1,7 @@
 global.rootPath = __dirname;
 const
     webpack = require('webpack'),
-    webpackConfigUtil = require('./src/common/lib/webpadckConfigUtil');
+    webpackConfigUtil = require(`${rootPath}/src/common/lib/webpackConfigUtil`);
 
 //初始化properties配置
 webpackConfigUtil.init(webpack);

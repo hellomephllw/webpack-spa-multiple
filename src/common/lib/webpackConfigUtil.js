@@ -5,15 +5,22 @@ const
     fs = require('fs'),
     HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const filePath = {
+const coreInfo = {
+    //properties文件路径配置
     config: {
+        basicCore: `${rootPath}/src/config/basic.core.config`,
         entryScript: `${rootPath}/src/config/entry.script.properties`,
         bindTemplate: `${rootPath}/src/config/bind.template.properties`
     },
+    //模版信息配置
     template: {
-        ext: 'hbs',
         commonPath: `${rootPath}/src/common/components`,
         path: `${rootPath}/src/modules`
+    },
+    //基础信息
+    basic: {
+        static: true,
+        ext: 'html',
     }
 };
 
@@ -21,15 +28,34 @@ let webpackConfigUtil = {
     /**初始化*/
     init(webpack) {
         this.webpack = webpack;
+        this._initCoreInfo();
         this._initEntries();
         this._initPlugins();
+    },
+    /**初始化基础信息*/
+    _initCoreInfo() {
+        //读取配置信息
+        let properties = this._getProperties(coreInfo.config.basicCore);
+
+        //初始化coreInfo.basic对象
+        for (let key in properties) {
+            for (let innerKey in coreInfo.basic) {
+                if (key == innerKey) {
+                    coreInfo.basic[innerKey] = properties[key];
+                }
+            }
+        }
+        //保证static为true的时候，ext一定为html
+        if (coreInfo.basic.static == 'true') {
+            coreInfo.basic.ext = 'html';
+        }
     },
     /**webpack*/
     webpack: null,
     /**初始化需要导入页面的js，还包括*/
     _initEntries() {
         //生成properties对象
-        let properties = this._getProperties(filePath.config.entryScript);
+        let properties = this._getProperties(coreInfo.config.entryScript);
         //为properties的所有value的开头添加rootpath
         properties = this._addRootPathToValue(properties);
         //为key的所有结尾增加文件名称
@@ -73,10 +99,10 @@ let webpackConfigUtil = {
             let fileNames = fs.readdirSync(rootDir);
             //遍历获取所有路径
             fileNames.map(name => {
-                let filePath = `${rootDir}/${name}`,
-                    isFile = fs.statSync(filePath).isFile();
-                if (isFile) templatePaths.push(filePath);
-                else listDirectory(filePath);
+                let coreInfo = `${rootDir}/${name}`,
+                    isFile = fs.statSync(coreInfo).isFile();
+                if (isFile) templatePaths.push(coreInfo);
+                else listDirectory(coreInfo);
             });
         };
         //保留模板
@@ -97,36 +123,38 @@ let webpackConfigUtil = {
             for (let i = 0, len = templatePaths.length; i < len; ++i) {
                 let templatePath = templatePaths[i],
                     isModules = /^.+\/src\/modules\/.*$/.test(templatePath),
-                    lists = isModules ? templatePath.split('/src/modules/') : templatePath.split('/src/common'),
+                    lists = isModules ? templatePath.split('/src/modules/') : templatePath.split('/src/common/'),
                     distPath = isModules ? `${lists[0]}/templates/${lists[1]}` : `${lists[0]}/templates/common/${lists[1]}`;
 
                 templateDistPaths.push(distPath);
             }
         };
         //生成tempOption的key
-        let generateTempOptionKey = srcPath => '/src/modules/' + srcPath.split('src/modules/')[1];
+        let generateTempOptionKeyForModule = srcPath => '/src/modules/' + srcPath.split('src/modules/')[1];
+        let generateTempOptionKeyForCommon = srcPath => '/src/common/' + srcPath.split('src/common/')[1];
         //初始化tempOptions
         let generateTempOptions = () => {
             for (let i = 0, len = templatePaths.length; i < len; ++i) {
-                let tempOption = {};
+                let tempOption = {},
+                    isModules = /^.+\/src\/modules\/.*$/.test(templatePaths[i]);
                 tempOption['template'] = templatePaths[i];
                 tempOption['filename'] = templateDistPaths[i];
-                tempOption['key'] = generateTempOptionKey(templatePaths[i]);
+                tempOption['key'] = isModules ? generateTempOptionKeyForModule(templatePaths[i]) : generateTempOptionKeyForCommon(templatePaths[i]);
 
                 tempOptions.push(tempOption);
             }
         };
 
         //执行
-        listDirectory(filePath.template.path);
-        listDirectory(filePath.template.commonPath);
-        reserveTemplate(filePath.template.ext);
+        listDirectory(coreInfo.template.path);
+        listDirectory(coreInfo.template.commonPath);
+        reserveTemplate(coreInfo.basic.ext);
         generateDistPath();
         generateTempOptions();
     },
     /**为template指定相关js*/
     _bindScriptToTemplate(tempOptions) {
-        let properties = this._getProperties(filePath.config.bindTemplate);
+        let properties = this._getProperties(coreInfo.config.bindTemplate);
 
         //添加chunks属性
         tempOptions.map(tempOption => {
@@ -224,7 +252,7 @@ let webpackConfigUtil = {
     _addRootPathToValue(properties) {
         let newProperties = {};
         for (let key in properties) {
-            newProperties[key] = `${rootPath}/${properties[key]}`;
+            newProperties[key] = `${rootPath}${properties[key]}`;
         }
 
         return newProperties;
