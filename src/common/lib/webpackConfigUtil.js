@@ -8,7 +8,7 @@ const
 const coreInfo = {
     //properties文件路径配置
     config: {
-        basicCore: `${rootPath}/src/config/basic.core.config`,
+        basicCore: `${rootPath}/src/config/basic.core.properties`,
         entryScript: `${rootPath}/src/config/entry.script.properties`,
         bindTemplate: `${rootPath}/src/config/bind.template.properties`
     },
@@ -21,6 +21,7 @@ const coreInfo = {
     basic: {
         static: true,
         ext: 'html',
+        compress: false
     }
 };
 
@@ -73,7 +74,7 @@ let webpackConfigUtil = {
     _initPlugins() {
         let plugins = [];
         this._initHtmlWebpackPlugin();
-        this._initUglifyJsPlugin();
+        if (coreInfo.basic.compress) this._initUglifyJsPlugin();
         this._plugins = plugins.concat(this._HtmlWebpackPlugins, this._UglifyJsPlugin);
     },
     /**HtmlWebpackPlugins*/
@@ -147,7 +148,7 @@ let webpackConfigUtil = {
 
         //执行
         listDirectory(coreInfo.template.path);
-        listDirectory(coreInfo.template.commonPath);
+        // listDirectory(coreInfo.template.commonPath);
         reserveTemplate(coreInfo.basic.ext);
         generateDistPath();
         generateTempOptions();

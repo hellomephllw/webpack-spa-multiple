@@ -3,7 +3,7 @@
  */
 const header = {
     init() {
-        console.log('this is common header!!');
+        console.log('this is header!!');
     }
 };
 

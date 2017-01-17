@@ -19,6 +19,11 @@ module.exports = {
     //模块加载器配置
     module: {
         loaders: [
+            //template加载器
+            {
+                test: /\.(hbs|ejs|jsp|php|blade|vm)/,
+                loader: 'ejs-loader'
+            },
             //script加载器
             {
                 test: /\.js$/,
@@ -28,7 +33,7 @@ module.exports = {
             //image加载器
             {
                 test: /\.(png|jp[e]?g|gif)$/,
-                loader: 'url-loader?limit=10240&name=images/[name].[hash:5].[ext]'
+                loader: 'url-loader?limit=1&name=images/[name].[hash:5].[ext]'
             },
             //font加载器
             {
