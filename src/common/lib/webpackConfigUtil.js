@@ -127,6 +127,12 @@ let webpackConfigUtil = {
                     lists = isModules ? templatePath.split('/src/modules/') : templatePath.split('/src/common/'),
                     distPath = isModules ? `${lists[0]}/templates/${lists[1]}` : `${lists[0]}/templates/common/${lists[1]}`;
 
+                //去掉文件夹，把源码文件夹目录的名称替换为文件名称
+                lists = distPath.split('/');
+                let filePath = lists.splice(0, lists.length - 1).join('/'),
+                    ext = lists[lists.length - 1].split('.')[1];
+                distPath = `${filePath}.${ext}`;
+
                 templateDistPaths.push(distPath);
             }
         };
