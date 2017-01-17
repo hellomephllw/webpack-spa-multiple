@@ -6,6 +6,8 @@ import header from '../../../../common/components/header/index';
 import nav from '../../components/nav/index';
 import footer from '../../components/footer/index';
 
+let page = require('./index.hbs');
+
 const entry = {
     init() {
         this.initPage();
@@ -13,7 +15,10 @@ const entry = {
         this.initComponent();
     },
     initPage() {
-        console.log('init screen!!!!');
+        console.log('init screen!!');
+        let divEle = document.createElement('div');
+        divEle.innerHTML = page();
+        document.body.appendChild(divEle);
     },
     initEvent() {
 

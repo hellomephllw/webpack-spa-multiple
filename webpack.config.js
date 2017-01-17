@@ -3,6 +3,8 @@ const
     webpack = require('webpack'),
     webpackConfigUtil = require(`${rootPath}/src/common/lib/webpackConfigUtil`);
 
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 //初始化properties配置
 webpackConfigUtil.init(webpack);
 
@@ -19,6 +21,11 @@ module.exports = {
     //模块加载器配置
     module: {
         loaders: [
+            //template加载器
+            {
+                test: /\.(ejs|hbs|vm|jsp|php|blade)/,
+                loader: 'ejs-loader'
+            },
             //script加载器
             {
                 test: /\.js$/,
@@ -48,5 +55,11 @@ module.exports = {
         ]
     },
     //插件配置
-    plugins: webpackConfigUtil.getPlugins()
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: `${rootPath}/templates/module-one/screen/main-one/entry.html`,
+            template: `${rootPath}/src/modules/module-one/screen/main-one/entry.js`, // 指定为一个js文件而非普通的模板文件
+            chunks: ['module-one/js/main-one/index'], // 自动加载上index/login的入口文件以及公共chunk
+        })
+    ]
 };

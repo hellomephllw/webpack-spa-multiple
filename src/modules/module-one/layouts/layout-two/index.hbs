@@ -8,7 +8,9 @@
     <title>Document</title>
 </head>
 <body>
-<h1>hello world!</h1>
-<img src="/htdocs/images/temp.78c97.png" alt="图片">
-<script type="text/javascript" src="/htdocs/module-one/js/main-one/index.js"></script></body>
+    {{> common/components/header/index}}
+    {{> module-one/components/nav/index}}
+    {{> module-one/screen/main-one/index}}
+    {{> module-one/components/footer/index}}
+</body>
 </html>
