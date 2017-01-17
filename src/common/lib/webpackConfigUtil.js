@@ -8,7 +8,7 @@ const
 const coreInfo = {
     //properties文件路径配置
     config: {
-        basicCore: `${rootPath}/src/config/basic.core.config`,
+        basicCore: `${rootPath}/src/config/basic.core.properties`,
         entryScript: `${rootPath}/src/config/entry.script.properties`,
         bindTemplate: `${rootPath}/src/config/bind.template.properties`
     },
@@ -21,6 +21,7 @@ const coreInfo = {
     basic: {
         static: true,
         ext: 'html',
+        compress: false
     }
 };
 
@@ -73,7 +74,7 @@ let webpackConfigUtil = {
     _initPlugins() {
         let plugins = [];
         this._initHtmlWebpackPlugin();
-        this._initUglifyJsPlugin();
+        if (coreInfo.basic.compress) this._initUglifyJsPlugin();
         this._plugins = plugins.concat(this._HtmlWebpackPlugins, this._UglifyJsPlugin);
     },
     /**HtmlWebpackPlugins*/
@@ -126,6 +127,12 @@ let webpackConfigUtil = {
                     lists = isModules ? templatePath.split('/src/modules/') : templatePath.split('/src/common/'),
                     distPath = isModules ? `${lists[0]}/templates/${lists[1]}` : `${lists[0]}/templates/common/${lists[1]}`;
 
+                //去掉文件夹，把源码文件夹目录的名称替换为文件名称
+                lists = distPath.split('/');
+                let filePath = lists.splice(0, lists.length - 1).join('/'),
+                    ext = lists[lists.length - 1].split('.')[1];
+                distPath = `${filePath}.${ext}`;
+
                 templateDistPaths.push(distPath);
             }
         };
@@ -147,7 +154,7 @@ let webpackConfigUtil = {
 
         //执行
         listDirectory(coreInfo.template.path);
-        listDirectory(coreInfo.template.commonPath);
+        // listDirectory(coreInfo.template.commonPath);
         reserveTemplate(coreInfo.basic.ext);
         generateDistPath();
         generateTempOptions();

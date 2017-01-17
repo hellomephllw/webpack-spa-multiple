@@ -3,8 +3,6 @@ const
     webpack = require('webpack'),
     webpackConfigUtil = require(`${rootPath}/src/common/lib/webpackConfigUtil`);
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-
 //初始化properties配置
 webpackConfigUtil.init(webpack);
 
@@ -35,7 +33,7 @@ module.exports = {
             //image加载器
             {
                 test: /\.(png|jp[e]?g|gif)$/,
-                loader: 'url-loader?limit=10240&name=images/[name].[hash:5].[ext]'
+                loader: 'url-loader?limit=1&name=images/[name].[hash:5].[ext]'
             },
             //font加载器
             {
@@ -55,11 +53,5 @@ module.exports = {
         ]
     },
     //插件配置
-    plugins: [
-        new HtmlWebpackPlugin({
-            filename: `${rootPath}/templates/module-one/screen/main-one/entry.html`,
-            template: `${rootPath}/src/modules/module-one/screen/main-one/entry.js`, // 指定为一个js文件而非普通的模板文件
-            chunks: ['module-one/js/main-one/index'], // 自动加载上index/login的入口文件以及公共chunk
-        })
-    ]
+    plugins: webpackConfigUtil.getPlugins()
 };

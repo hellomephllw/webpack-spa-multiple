@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --hot --inline --progress --colors --devtool cheap-module-eval-source-map"
+    "dev": "webpack-dev-server --port=8088 --hot --inline --progress --colors --devtool cheap-module-eval-source-map"
   },
   "author": "llw",
   "license": "ISC",
@@ -17,8 +17,6 @@
     "css-loader": "^0.26.1",
     "ejs-loader": "^0.3.0",
     "file-loader": "^0.9.0",
-    "handlebars-loader": "^1.4.0",
-    "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.25.0",
     "koa": "^1.2.4",
     "koa-hbs": "^0.9.0",
