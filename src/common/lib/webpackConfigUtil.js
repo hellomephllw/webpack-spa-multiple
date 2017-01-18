@@ -197,7 +197,7 @@ let webpackConfigUtil = {
             compress: {
                 warnings: false
             },
-            except: ['$', 'exports', 'require']
+            except: ['$', 'jQuery', 'exports', 'require', 'd3', 'module']
         }));
     },
     /**入口js*/
