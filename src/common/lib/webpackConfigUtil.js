@@ -17,7 +17,7 @@ const coreInfo = {
         commonPath: `${rootPath}/src/common/components`,
         path: `${rootPath}/src/modules`
     },
-    //基础信息
+    //基础信息(默认值)
     basic: {
         static: true,
         ext: 'html',
