@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --port=8088 --hot --inline --progress --colors --devtool cheap-module-eval-source-map"
+    "debug": "webpack-dev-server --port=8088 --hot --inline --progress --colors --devtool source-map",
+    "s": "webpack-dev-server --port=8088 --hot --inline --progress --colors --devtool cheap-module-eval-source-map",
+    "d": "webpack --watch"
   },
   "author": "llw",
   "license": "ISC",
