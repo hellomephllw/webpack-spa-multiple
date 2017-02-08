@@ -20,6 +20,7 @@
     "ejs-loader": "^0.3.0",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.25.0",
+    "iconv-lite": "^0.4.15",
     "koa": "^1.2.4",
     "koa-hbs": "^0.9.0",
     "koa-route": "^2.4.2",
