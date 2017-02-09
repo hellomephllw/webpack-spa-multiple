@@ -75,7 +75,7 @@ let webpackConfigUtil = {
     _initPlugins() {
         let plugins = [];
         this._initHtmlWebpackPlugin();
-        if (coreInfo.basic.compress) this._initUglifyJsPlugin();
+        if (coreInfo.basic.compress != 'false') this._initUglifyJsPlugin();
         this._plugins = plugins.concat(this._HtmlWebpackPlugins, this._UglifyJsPlugin);
     },
     /**HtmlWebpackPlugins*/
@@ -185,7 +185,7 @@ let webpackConfigUtil = {
             options.push({
                 template: tempOption['template'],
                 filename: tempOption['filename'],
-                hash: false,
+                hash: true,
                 chunks: tempOption['chunks']
             })
         );

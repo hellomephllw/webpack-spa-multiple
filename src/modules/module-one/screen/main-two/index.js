@@ -15,7 +15,7 @@ const mainTwo = {
         this.initComponent();
     },
     initPage() {
-        console.log('main two!!!');
+        console.log('main two!!!!!');
     },
     initEvent() {
     },
