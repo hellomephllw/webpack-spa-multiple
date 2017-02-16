@@ -4,6 +4,7 @@
 'use strict';
 const
     fs = require('fs'),
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const coreInfo = {
@@ -76,7 +77,8 @@ let webpackConfigUtil = {
         let plugins = [];
         this._initHtmlWebpackPlugin();
         if (coreInfo.basic.compress != 'false') this._initUglifyJsPlugin();
-        this._plugins = plugins.concat(this._HtmlWebpackPlugins, this._UglifyJsPlugin);
+        this._initExtractTextPlugin();
+        this._plugins = plugins.concat(this._HtmlWebpackPlugins, this._UglifyJsPlugin, this._ExtractTextPlugin);
     },
     /**HtmlWebpackPlugins*/
     _HtmlWebpackPlugins: [],
@@ -200,6 +202,12 @@ let webpackConfigUtil = {
             },
             except: ['$', 'jQuery', 'exports', 'require', 'd3', 'module']
         }));
+    },
+    /**ExtractTextPlugin*/
+    _ExtractTextPlugin: [],
+    /**初始化ExtractTextPlugin*/
+    _initExtractTextPlugin() {
+        this._ExtractTextPlugin.push(new ExtractTextPlugin('[name].css'));
     },
     /**入口js*/
     _entry: {},

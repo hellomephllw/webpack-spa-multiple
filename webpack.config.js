@@ -2,6 +2,7 @@
 global.rootPath = __dirname;
 const
     webpack = require('webpack'),
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
     webpackConfigUtil = require(`${rootPath}/src/common/lib/webpackConfigUtil`);
 
 //初始化properties配置
@@ -21,36 +22,17 @@ module.exports = {
     module: {
         loaders: [
             //template加载器
-            {
-                test: /\.(ejs|hbs|vm|jsp|php|blade)/,
-                loader: 'ejs'
-            },
+            {test: /\.(ejs|hbs|vm|jsp|php|blade)/, loader: 'ejs'},
             //script加载器
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel'
-            },
+            {test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
             //image加载器
-            {
-                test: /\.(png|jp[e]?g|gif)$/,
-                loader: 'url?limit=10240&name=images/[name].[hash:5].[ext]'
-            },
+            {test: /\.(png|jp[e]?g|gif)$/, loader: 'url?limit=10240&name=images/[name].[hash:5].[ext]'},
             //font加载器
-            {
-                test: /\.(woff|svg|eot|ttf)$/,
-                loader: 'url?limit=10240&name=fonts/[name].[hash:5].[ext]'
-            },
+            {test: /\.(woff|svg|eot|ttf)$/, loader: 'url?limit=10240&name=fonts/[name].[hash:5].[ext]'},
             //css加载器
-            {
-                test: /\.css$/,
-                loader: 'style!css'
-            },
+            {test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css')},
             //sass加载器
-            {
-                test: /\.scss$/,
-                loader: 'style!css!sass?sourceMap'
-            }
+            {test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css!sass?sourceMap')}
         ]
     },
     //插件配置
