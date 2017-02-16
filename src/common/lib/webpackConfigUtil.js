@@ -12,7 +12,8 @@ const coreInfo = {
     config: {
         basicCore: `${rootPath}/src/config/basic.core.properties`,
         entryScript: `${rootPath}/src/config/entry.script.properties`,
-        bindTemplate: `${rootPath}/src/config/bind.template.properties`
+        bindTemplate: `${rootPath}/src/config/bind.template.properties`,
+        vendorCommon: `${rootPath}/src/config/vendor.common.properties`
     },
     //模版信息配置
     template: {
@@ -55,10 +56,16 @@ let webpackConfigUtil = {
     },
     /**webpack*/
     webpack: null,
+    /**vendorCommon*/
+    vendorCommon: null,
     /**初始化需要导入页面的js，还包括*/
     _initEntries() {
         //生成properties对象
-        let properties = this._getProperties(coreInfo.config.entryScript);
+        let properties = {},
+            entryScripts = this._getProperties(coreInfo.config.entryScript),
+            vendorCommon = this._getProperties(coreInfo.config.vendorCommon);
+        Object.assign(properties, entryScripts, vendorCommon);
+        this.vendorCommon = vendorCommon;//缓存vendorCommon
         //为properties的所有value的开头添加rootpath
         properties = this._addRootPathToValue(properties);
         //为key的所有结尾增加文件名称
@@ -75,10 +82,11 @@ let webpackConfigUtil = {
     /**初始化插件*/
     _initPlugins() {
         let plugins = [];
-        this._initHtmlWebpackPlugin();
         if (coreInfo.basic.compress != 'false') this._initUglifyJsPlugin();
         this._initExtractTextPlugin();
-        this._plugins = plugins.concat(this._HtmlWebpackPlugins, this._UglifyJsPlugin, this._ExtractTextPlugin);
+        this._initCommonsChunkPlugin();
+        this._initHtmlWebpackPlugin();
+        this._plugins = plugins.concat(this._UglifyJsPlugin, this._ExtractTextPlugin, this._CommonsChunkPlugin, this._HtmlWebpackPlugins);
     },
     /**HtmlWebpackPlugins*/
     _HtmlWebpackPlugins: [],
@@ -174,8 +182,12 @@ let webpackConfigUtil = {
             //为部分template指定js
             for (let key in properties) {
                 if (key == tempOption['key']) {
-
-                    tempOption['chunks'].push(`${properties[key]}/index`);
+                    let isMultipleFiles = /^.+,.+$/.test(properties[key]);
+                    if (isMultipleFiles) {//配置了公共文件
+                        properties[key].split(',').map(fragment => tempOption['chunks'].push(`${fragment}/index`));
+                    } else {
+                        tempOption['chunks'].push(`${properties[key]}/index`);
+                    }
                     break;
                 }
             }
@@ -208,6 +220,17 @@ let webpackConfigUtil = {
     /**初始化ExtractTextPlugin*/
     _initExtractTextPlugin() {
         this._ExtractTextPlugin.push(new ExtractTextPlugin('[name].css'));
+    },
+    /**CommonsChunkPlugin*/
+    _CommonsChunkPlugin: [],
+    /**初始化CommonsChunkPlugin*/
+    _initCommonsChunkPlugin() {
+        for (let key in this.vendorCommon) {
+            this._CommonsChunkPlugin.push(new this.webpack.optimize.CommonsChunkPlugin({
+                name: `${key}/index`,
+                minChunks: Infinity
+            }));
+        }
     },
     /**入口js*/
     _entry: {},
